@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en" data-bs-theme="dark">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Enigma Machine Simulator</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+    <link href="styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container py-5">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div class="d-flex align-items-center">
+                <i class="fas fa-lock-open fs-2 me-3 text-primary"></i>
+                <h1 class="m-0">Enigma Machine Simulator</h1>
+            </div>
+            <div class="theme-switch">
+                <label class="switch">
+                    <input type="checkbox" id="themeToggle">
+                    <span class="slider">
+                        <i class="fas fa-sun"></i>
+                        <i class="fas fa-moon"></i>
+                    </span>
+                </label>
+            </div>
+        </div>
+        
+        <div class="row justify-content-center">
+            <div class="col-md-10">
+                <div class="enigma-machine p-4 rounded">
+                    <!-- Rotor Selection and Settings -->
+                    <div class="rotor-settings mb-4">
+                        <h3 class="mb-3">
+                            <i class="fas fa-cogs me-2"></i>
+                            Rotor Configuration
+                        </h3>
+                        <div class="mb-3">
+                            <button class="btn btn-secondary" id="resetRotors">
+                                <i class="fas fa-undo me-2"></i>
+                                Reset Rotors
+                            </button>
+                        </div>
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label><i class="fas fa-circle-notch me-2"></i>Left Rotor (III)</label>
+                                <select class="form-select mb-2" id="rotorType1">
+                                    <option value="I">Rotor I</option>
+                                    <option value="II">Rotor II</option>
+                                    <option value="III" selected>Rotor III</option>
+                                    <option value="IV">Rotor IV</option>
+                                    <option value="V">Rotor V</option>
+                                </select>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control text-center" id="rotor1" value="0" readonly>
+                                    <div class="rotor-controls">
+                                        <button class="btn btn-sm rotor-up" data-rotor="1">
+                                            <i class="fas fa-caret-up"></i>
+                                        </button>
+                                        <button class="btn btn-sm rotor-down" data-rotor="1">
+                                            <i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label><i class="fas fa-circle-notch me-2"></i>Middle Rotor (II)</label>
+                                <select class="form-select mb-2" id="rotorType2">
+                                    <option value="I">Rotor I</option>
+                                    <option value="II" selected>Rotor II</option>
+                                    <option value="III">Rotor III</option>
+                                    <option value="IV">Rotor IV</option>
+                                    <option value="V">Rotor V</option>
+                                </select>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control text-center" id="rotor2" value="0" readonly>
+                                    <div class="rotor-controls">
+                                        <button class="btn btn-sm rotor-up" data-rotor="2">
+                                            <i class="fas fa-caret-up"></i>
+                                        </button>
+                                        <button class="btn btn-sm rotor-down" data-rotor="2">
+                                            <i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <label><i class="fas fa-circle-notch me-2"></i>Right Rotor (I)</label>
+                                <select class="form-select mb-2" id="rotorType3">
+                                    <option value="I" selected>Rotor I</option>
+                                    <option value="II">Rotor II</option>
+                                    <option value="III">Rotor III</option>
+                                    <option value="IV">Rotor IV</option>
+                                    <option value="V">Rotor V</option>
+                                </select>
+                                <div class="position-relative">
+                                    <input type="text" class="form-control text-center" id="rotor3" value="0" readonly>
+                                    <div class="rotor-controls">
+                                        <button class="btn btn-sm rotor-up" data-rotor="3">
+                                            <i class="fas fa-caret-up"></i>
+                                        </button>
+                                        <button class="btn btn-sm rotor-down" data-rotor="3">
+                                            <i class="fas fa-caret-down"></i>
+                                        </button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <!-- Reflector Selection -->
+                        <div class="row mb-3">
+                            <div class="col-md-4">
+                                <label><i class="fas fa-sync-alt me-2"></i>Reflector</label>
+                                <select class="form-select" id="reflectorType">
+                                    <option value="B" selected>Reflector B</option>
+                                    <option value="C">Reflector C</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Plugboard -->
+                    <div class="plugboard mb-4">
+                        <h3 class="mb-3">
+                            <i class="fas fa-plug me-2"></i>
+                            Plugboard
+                        </h3>
+                        <div class="row mb-3">
+                            <div class="col">
+                                <div class="input-group mb-2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="AB" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="CD" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="EF" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="GH" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="IJ" maxlength="2">
+                                </div>
+                                <div class="input-group">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="KL" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="MN" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="OP" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="QR" maxlength="2">
+                                    <input type="text" class="form-control plugboard-pair" placeholder="ST" maxlength="2">
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- Input/Output Area -->
+                    <div class="io-area">
+                        <div class="mb-3">
+                            <label for="inputText" class="form-label">
+                                <i class="fas fa-keyboard me-2"></i>
+                                Input Text
+                            </label>
+                            <textarea class="form-control" id="inputText" rows="3" placeholder="Enter text to encrypt/decrypt..."></textarea>
+                        </div>
+                        <div class="mb-3">
+                            <div class="d-flex gap-2">
+                                <button class="btn btn-primary flex-grow-1" id="processButton">
+                                    <i class="fas fa-exchange-alt me-2"></i>
+                                    Process Text
+                                </button>
+                                <button class="btn btn-secondary" id="downloadButton" disabled>
+                                    <i class="fas fa-download me-2"></i>
+                                    Download Config
+                                </button>
+                                <label class="btn btn-info" for="configFile">
+                                    <i class="fas fa-upload me-2"></i>
+                                    Load Config
+                                </label>
+                                <input type="file" id="configFile" accept=".txt" class="d-none">
+                            </div>
+                        </div>
+                        <div class="mb-3">
+                            <label for="outputText" class="form-label">
+                                <i class="fas fa-lock me-2"></i>
+                                Output Text
+                            </label>
+                            <textarea class="form-control" id="outputText" rows="3" readonly></textarea>
+                        </div>
+                    </div>
+
+                    <!-- Light Board -->
+                    <div class="light-board mt-4">
+                        <h3 class="mb-3">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            Keyboard
+                        </h3>
+                        <div class="keyboard-container">
+                            <div class="keyboard-row" id="row1">
+                                <!-- Q W E R T Z U I O P -->
+                            </div>
+                            <div class="keyboard-row" id="row2">
+                                <!-- A S D F G H J K L -->
+                            </div>
+                            <div class="keyboard-row" id="row3">
+                                <!-- Y X C V B N M -->
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+    <script src="script.js"></script>
+</body>
+</html> 
